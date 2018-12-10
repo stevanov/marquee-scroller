@@ -150,7 +150,9 @@ String NEWS_OPTIONS = "<option>bbc-news</option>"
                       "<option>nos.nl</option>"
                       "<option>www.nu.nl</option>"
                       "<option>tweakers.net</option>"
-                      "<option>telegraaf.nl</option>";
+                      "<option>telegraaf.nl</option>"
+                      "<option>www.ad.nl</option>"
+                      "<option>www.nrc.nl</option>";
 
 String CURRENCY_OPTIONS = "<option value='NONE'>NONE</option>"
                           "<option value='USD'>United States Dollar</option>"
