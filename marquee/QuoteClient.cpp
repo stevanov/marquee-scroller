@@ -21,46 +21,46 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include "AdviceSlipClient.h"
+#include "QuoteClient.h"
 
 #define arr_len( x )  ( sizeof( x ) / sizeof( *x ) )
 
-AdviceSlipClient::AdviceSlipClient() {
+QuoteClient::QuoteClient() {
 
 }
 
-void AdviceSlipClient::updateAdvice() {
+void QuoteClient::updateQuote() {
   JsonStreamingParser parser;
   parser.setListener(this);
-  WiFiClient adviceClient;
+  WiFiClient quoteClient;
 
-  String apiGetData = "GET /advice HTTP/1.1";
+  String apiGetData = "GET /v1/cookie HTTP/1.1";
 
-  Serial.println("Getting Advice Data");
+  Serial.println("Getting Quote Data");
   Serial.println(apiGetData);
 
-  if (adviceClient.connect(servername, 80)) {  //starts client connection, checks for connection
-    adviceClient.println(apiGetData);
-    adviceClient.println("Host: " + String(servername));
-    adviceClient.println("User-Agent: ArduinoWiFi/1.1");
-    adviceClient.println("Connection: close");
-    adviceClient.println();
+  if (quoteClient.connect(servername, 80)) {  //starts client connection, checks for connection
+    quoteClient.println(apiGetData);
+    quoteClient.println("Host: " + String(servername));
+    quoteClient.println("User-Agent: ArduinoWiFi/1.1");
+    quoteClient.println("Connection: close");
+    quoteClient.println();
   } 
   else {
-    Serial.println("connection for advice data failed: " + String(servername)); //error message if no client connect
+    Serial.println("connection for quote data failed: " + String(servername)); //error message if no client connect
     Serial.println();
     return;
   }
   
-  while(adviceClient.connected() && !adviceClient.available()) delay(1); //waits for data
+  while(quoteClient.connected() && !quoteClient.available()) delay(1); //waits for data
  
   Serial.println("Waiting for data");
 
   int size = 0;
   char c;
   boolean isBody = false;
-  while (adviceClient.connected() || adviceClient.available()) { //connected or data available
-    c = adviceClient.read(); //gets byte from ethernet buffer
+  while (quoteClient.connected() || quoteClient.available()) { //connected or data available
+    c = quoteClient.read(); //gets byte from ethernet buffer
     if (c == '{' || c == '[') {
       isBody = true;
     }
@@ -68,47 +68,47 @@ void AdviceSlipClient::updateAdvice() {
       parser.parse(c);
     }
   }
-  adviceClient.stop(); //stop client
+  quoteClient.stop(); //stop client
 }
 
-String AdviceSlipClient::getAdvice() {
-  return advice.adVice;
+String QuoteClient::getQuote() {
+  return quote.qUote;
 }
 
-void AdviceSlipClient::whitespace(char c) {
+void QuoteClient::whitespace(char c) {
 
 }
 
-void AdviceSlipClient::startDocument() {
+void QuoteClient::startDocument() {
   
 }
 
-void AdviceSlipClient::key(String key) {
+void QuoteClient::key(String key) {
   currentKey = key;
 }
 
-void AdviceSlipClient::value(String value) {
-  if (currentKey == "advice") {
-    advice.adVice = cleanText(value);
+void QuoteClient::value(String value) {
+  if (currentKey == "message") {
+    quote.qUote = cleanText(value);
   }
   Serial.println(currentKey + "=" + value);
 }
 
-void AdviceSlipClient::endArray() {
+void QuoteClient::endArray() {
 }
 
-void AdviceSlipClient::endObject() {
+void QuoteClient::endObject() {
 }
-void AdviceSlipClient::startArray() {
-}
-
-void AdviceSlipClient::startObject() {
+void QuoteClient::startArray() {
 }
 
-void AdviceSlipClient::endDocument() {
+void QuoteClient::startObject() {
 }
 
-String AdviceSlipClient::cleanText(String text) {
+void QuoteClient::endDocument() {
+}
+
+String QuoteClient::cleanText(String text) {
   text.replace("’", "'");
   text.replace("“", "\"");
   text.replace("”", "\"");

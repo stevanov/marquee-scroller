@@ -26,25 +26,25 @@ SOFTWARE.
 #include <JsonListener.h>
 #include <JsonStreamingParser.h>
 
-class AdviceSlipClient: public JsonListener {
+class QuoteClient: public JsonListener {
 
   private:
     
     String currentKey = "";
 
     typedef struct {
-      String adVice;
-    } advicefeed;
+      String qUote;
+    } quotefeed;
 
-    advicefeed advice;
+    quotefeed quote;
     
-    const char* servername = "api.adviceslip.com";  // remote server we will connect to
+    const char* servername = "fortunecookieapi.herokuapp.com";  // remote server we will connect to
   
   public:
-    AdviceSlipClient();
-    void updateAdvice();
+    QuoteClient();
+    void updateQuote();
     
-    String getAdvice();
+    String getQuote();
     String cleanText(String text);
     
     virtual void whitespace(char c);

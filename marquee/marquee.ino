@@ -75,8 +75,8 @@ GeoNamesClient geoNames(GEONAMES_USER, "", "", IS_DST);
 NewsApiClient newsClient(NEWS_API_KEY, NEWS_SOURCE);
 int newsIndex = 0;
 
-// Advice Client
-AdviceSlipClient adviceClient;
+// Quote Client
+QuoteClient quoteClient;
 
 // Weather Client
 OpenWeatherMapClient weatherClient(APIKEY, CityIDs, 1, IS_METRIC);
@@ -111,7 +111,7 @@ String CHANGE_FORM1 = "<form class='w3-container' action='/locations' method='ge
                       "<p><input name='is24hour' class='w3-check w3-margin-top' type='checkbox' %IS_24HOUR_CHECKED%> Use 24 Hour Clock (military time)</p>"
                       "<p><input name='isDST' class='w3-check w3-margin-top' type='checkbox' %IS_DST_CHECKED%> Use DST (Daylight Savings Time)</p>";
 
-String CHANGE_FORM2 = "<p><input name='displayadvice' class='w3-check w3-margin-top' type='checkbox' %ADVICECHECKED%> Display Advice</p>"
+String CHANGE_FORM2 = "<p><input name='displayquote' class='w3-check w3-margin-top' type='checkbox' %QUOTECHECKED%> Display Quote (from fortune cookies)</p>"
                       "<p><label>Marquee Message (up to 60 chars)</label><input class='w3-input w3-border w3-margin-bottom' type='text' name='marqueeMsg' value='%MSG%' maxlength='60'></p>"
                       "<p><label>Start Time </label><input name='startTime' type='time' value='%STARTTIME%'></p>"
                       "<p><label>End Time </label><input name='endTime' type='time' value='%ENDTIME%'></p>"
@@ -388,8 +388,8 @@ void loop() {
           newsIndex = 0;
         }
       }
-      if (ADVICE_ENABLED) {
-        msg += "  Advice: " + adviceClient.getAdvice() + " ";
+      if (QUOTE_ENABLED) {
+        msg += "  Cookie: " + quoteClient.getQuote() + " ";
       }
       if (OCTOPRINT_ENABLED && printerClient.isPrinting()) {
         msg += "   " + printerClient.getFileName() + " ";
@@ -507,7 +507,7 @@ void handleLocations() {
   }
   APIKEY = server.arg("openWeatherMapApiKey");
   CityIDs[0] = server.arg("city1").toInt();
-  ADVICE_ENABLED = server.hasArg("displayadvice");
+  QUOTE_ENABLED = server.hasArg("displayquote");
   IS_24HOUR = server.hasArg("is24hour");
   IS_DST = server.hasArg("isDST");
   SHOW_DATE = server.hasArg("showdate");
@@ -782,11 +782,11 @@ void handleConfigure() {
   server.sendContent(form);
 
   form = CHANGE_FORM2;
-  String isAdviceDisplayedChecked = "";
-  if (ADVICE_ENABLED) {
-    isAdviceDisplayedChecked = "checked='checked'";
+  String isQuoteDisplayedChecked = "";
+  if (QUOTE_ENABLED) {
+    isQuoteDisplayedChecked = "checked='checked'";
   }
-  form.replace("%ADVICECHECKED%", isAdviceDisplayedChecked);
+  form.replace("%QUOTECHECKED%", isQuoteDisplayedChecked);
   form.replace("%MSG%", marqueeMessage);
   form.replace("%STARTTIME%", timeDisplayTurnsOn);
   form.replace("%ENDTIME%", timeDisplayTurnsOff);
@@ -869,10 +869,10 @@ void getWeatherData() //client function to send/receive GET request data.
     newsClient.updateNews();
   }
 
-  if (ADVICE_ENABLED && displayOn) {
+  if (QUOTE_ENABLED && displayOn) {
     centerPrint("...");
-    Serial.println("Getting some Advice");
-    adviceClient.updateAdvice();
+    Serial.println("Getting some Quote");
+    quoteClient.updateQuote();
   }
 
   if (!timeOffsetFetched) {
@@ -1081,10 +1081,10 @@ void displayWeatherData() {
     }
   }
 
-  if (ADVICE_ENABLED) {
-    html = "<div class='w3-cell-row' style='width:100%'><h2>Advice Slip</h2></div>";
-    html += "<div class='w3-cell-row'>Current Advice: </div>";
-    html += "<div class='w3-cell-row'>" + adviceClient.getAdvice() + "</div><br>";
+  if (QUOTE_ENABLED) {
+    html = "<div class='w3-cell-row' style='width:100%'><h2>Fortune Cookie Quote</h2></div>";
+    html += "<div class='w3-cell-row'>Current Quote (from fortune cookies): </div>";
+    html += "<div class='w3-cell-row'>" + quoteClient.getQuote() + "</div><br>";
     server.sendContent(html);
     html = "";
   }
@@ -1247,7 +1247,7 @@ String writeCityIds() {
     f.println("scrollSpeed=" + String(displayScrollSpeed));
     f.println("isNews=" + String(NEWS_ENABLED));
     f.println("newsApiKey=" + NEWS_API_KEY);
-    f.println("isAdvice=" + String(ADVICE_ENABLED));
+    f.println("isQuote=" + String(QUOTE_ENABLED));
     f.println("is24hour=" + String(IS_24HOUR));
     f.println("isDST=" + String(IS_DST));
     f.println("wideclockformat=" + Wide_Clock_Style);

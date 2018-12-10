@@ -52,7 +52,7 @@ SOFTWARE.
 #include "TimeClient.h" // Using updated lib by Qrome
 #include "NewsApiClient.h" 
 #include "OctoPrintClient.h"
-#include "AdviceSlipClient.h"
+#include "QuoteClient.h"
 #include "BitcoinApiClient.h"
 
 //******************************
@@ -79,7 +79,7 @@ boolean NEWS_ENABLED = true;
 String NEWS_API_KEY = ""; // Get your News API Key from https://newsapi.org
 String NEWS_SOURCE = "reuters";  // https://newsapi.org/sources to get full list of news sources available
 
-boolean ADVICE_ENABLED = false;
+boolean QUOTE_ENABLED = false;
 
 // Display Settings
 // CLK -> D5 (SCK)  
