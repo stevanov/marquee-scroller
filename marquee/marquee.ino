@@ -146,7 +146,11 @@ String NEWS_OPTIONS = "<option>bbc-news</option>"
                       "<option>the-new-york-times</option>"
                       "<option>time</option>"
                       "<option>usa-today</option>"
-                      "<option>wired</option>";
+                      "<option>wired</option>"
+                      "<option>nos.nl</option>"
+                      "<option>www.nu.nl</option>"
+                      "<option>tweakers.net</option>"
+                      "<option>telegraaf.nl</option>";
 
 String CURRENCY_OPTIONS = "<option value='NONE'>NONE</option>"
                           "<option value='USD'>United States Dollar</option>"
@@ -622,6 +626,7 @@ void handleNewsConfigure() {
                         "<p>Select News Source <select class='w3-option w3-padding' name='newssource'>";
 
   String NEWS_FORM2 =   "</select></p>"
+                        "<p>Please note, sources from the above list that contain '-' will only show headlines. Sources that are a URL (e.g. nos.nl) will show ALL articles from this source.</p>"
                         "<button class='w3-button w3-block w3-grey w3-section w3-padding' type='submit'>Save</button></form>";
 
   server.sendHeader("Cache-Control", "no-cache, no-store");
