@@ -128,6 +128,7 @@ String CHANGE_FORM3 = "<hr><p><input name='isBasicAuth' class='w3-check w3-margi
 
 String NEWS_OPTIONS = "<option>bbc-news</option>"
                       "<option>cnn</option>"
+                      "<option>rtl-nieuws</option>"
                       "<option>crypto-coins-news</option>"
                       "<option>engadget</option>"
                       "<option>espn</option>"
