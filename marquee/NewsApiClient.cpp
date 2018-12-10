@@ -42,7 +42,14 @@ void NewsApiClient::updateNews() {
   parser.setListener(this);
   HTTPClient http;
 
-  String apiGetData = "http://" + String(servername) + "/v2/top-headlines?sources=" + mySource + "&apiKey=" + myApiKey;
+  String apiGetData;
+  if (mySource.indexOf(".") >= 0) 
+  //check to see if user selected source contains a full stop. Hacky way to determine if user is using a 'headline' or 'everything' endpoint on newsapi
+  {
+    apiGetData = "http://" + String(servername) + "/v2/everything?domains=" + mySource + "&apiKey=" + myApiKey;
+  } else {
+    apiGetData = "http://" + String(servername) + "/v2/top-headlines?sources=" + mySource + "&apiKey=" + myApiKey;
+  }
 
   Serial.println("Getting News Data");
   Serial.println(apiGetData);
