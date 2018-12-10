@@ -147,6 +147,15 @@ String NEWS_OPTIONS = "<option>bbc-news</option>"
                       "<option>time</option>"
                       "<option>usa-today</option>"
                       "<option>wired</option>"
+                      "<option disabled='disabled'>========</option>"
+                      "<option>headlines us</option>"
+                      "<option>headlines gb</option>"
+                      "<option>headlines be</option>"
+                      "<option>headlines de</option>"
+                      "<option>headlines it</option>"
+                      "<option>headlines fr</option>"
+                      "<option>headlines nl</option>"
+                      "<option disabled='disabled'>========</option>"
                       "<option>nos.nl</option>"
                       "<option>www.nu.nl</option>"
                       "<option>tweakers.net</option>"
@@ -628,7 +637,10 @@ void handleNewsConfigure() {
                         "<p>Select News Source <select class='w3-option w3-padding' name='newssource'>";
 
   String NEWS_FORM2 =   "</select></p>"
-                        "<p>Please note, sources from the above list that contain '-' will only show headlines. Sources that are a URL (e.g. nos.nl) will show ALL articles from this source.</p>"
+                        "<p>Please note:</p>"
+                        "<ul><li>Sources from the list above that are a URL (e.g. 'nos.nl' and 'tweakers.net') will show ALL articles from this source</li>"
+                        "<li>Options from the list that start with 'headline' will show all headlines from mixed sources for a specific country (e.g. 'headlines us' and 'headlines it')</li>"
+                        "<li>All other sources are specific websites that newsapi has a special 'headlines' feed for. This last type is likely the most suitable for this display (e.g. 'the-new-york-times' and 'cnn')</li></ul>"
                         "<button class='w3-button w3-block w3-grey w3-section w3-padding' type='submit'>Save</button></form>";
 
   server.sendHeader("Cache-Control", "no-cache, no-store");

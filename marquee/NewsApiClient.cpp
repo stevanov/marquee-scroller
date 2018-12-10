@@ -43,11 +43,13 @@ void NewsApiClient::updateNews() {
   HTTPClient http;
 
   String apiGetData;
-  if (mySource.indexOf(".") >= 0) 
-  //check to see if user selected source contains a full stop. Hacky way to determine if user is using a 'headline' or 'everything' endpoint on newsapi
-  {
-    apiGetData = "http://" + String(servername) + "/v2/everything?domains=" + mySource + "&apiKey=" + myApiKey;
+  if (mySource.indexOf(".") >= 0) {
+    //check to see if user selected source contains a full stop. Hacky way to determine if user is using a 'headline' or 'everything' endpoint on newsapiapiGetData = "http://" + String(servername) + "/v2/everything?domains=" + mySource + "&apiKey=" + myApiKey;
+  } else if (mySource.indexOf("headlines") >= 0)  {
+    //check to see if user selected a 'country'-type headlines endpoint
+    apiGetData = "http://" + String(servername) + "/v2/top-headlines?country=" + mySource.substring(10) + "&apiKey=" + myApiKey;
   } else {
+    // in all other cases use default behaviour
     apiGetData = "http://" + String(servername) + "/v2/top-headlines?sources=" + mySource + "&apiKey=" + myApiKey;
   }
 
